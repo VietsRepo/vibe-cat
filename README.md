@@ -1,2 +1,2 @@
-# -vibe-cat
+# 🐱vibe-cat
 Daily vibes with a cat
