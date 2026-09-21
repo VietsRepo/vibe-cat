@@ -1,0 +1,518 @@
+# =============================================================================
+# Rule of thumb:
+#   IGNORE  -> secrets, generated/build output, caches, logs, personal settings
+#   COMMIT  -> source, lock files, shared tool config, *.example templates
+#
+# Remove sections for stacks you don't use.
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# 1. ENVIRONMENT VARIABLES & SECRETS  (most important section)
+# -----------------------------------------------------------------------------
+# Env files - ignore all variants, keep templates
+.env
+.env.*
+*.env
+!.env.example
+!.env.sample
+!.env.template
+!*.env.example
+.env.backup
+
+# direnv
+.envrc.local
+.direnv/
+
+# Private keys & certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.der
+id_rsa*
+id_ed25519*
+id_ecdsa*
+*.ppk
+# Uncomment if you never commit public certificates
+# *.crt
+# *.cer
+
+# Cloud / service credentials
+credentials.json
+*credentials*.json
+service-account*.json
+*-sa-key.json
+gcloud-key*.json
+.aws/
+.azure/
+.gcloud/
+.vault-token
+.netrc
+auth.json
+
+# Generic secret files (keep examples)
+secrets.*
+*.secret
+*.secrets
+!secrets.example.*
+!*.secret.example
+
+
+# -----------------------------------------------------------------------------
+# 2. NODE.JS / JAVASCRIPT / TYPESCRIPT
+# -----------------------------------------------------------------------------
+# Dependencies
+node_modules/
+jspm_packages/
+web_modules/
+bower_components/
+.pnpm-store/
+.npm/
+
+# Yarn Berry (keep plugins/releases/patches/sdks/versions)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.yarn-integrity
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Build output
+dist/
+build/
+out/
+.output/
+*.tsbuildinfo
+*.tgz
+storybook-static/
+
+# Keep compiled JavaScript GitHub Actions (they must be committed)
+!.github/actions/*/dist/
+
+# Framework caches & output
+.next/
+.nuxt/
+.svelte-kit/
+.astro/
+.angular/
+.vuepress/dist
+**/.vitepress/dist
+**/.vitepress/cache
+.docusaurus/
+.remix/
+.expo/
+.vite/
+vite.config.*.timestamp-*
+next-env.d.ts
+
+# Monorepo / build tool caches
+.turbo/
+.nx/cache/
+.nx/workspace-data/
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+.node_repl_history
+
+# Deployment platform local folders
+.vercel/
+.netlify/
+.wrangler/
+.firebase/
+.serverless/
+.amplify/
+.dynamodb/
+
+
+# -----------------------------------------------------------------------------
+# 3. TESTING & COVERAGE
+# -----------------------------------------------------------------------------
+coverage/
+*.lcov
+lib-cov/
+.nyc_output/
+junit*.xml
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+cypress/videos/
+cypress/screenshots/
+cypress/downloads/
+.jest-cache/
+*.cpuprofile
+*.heapsnapshot
+
+
+# -----------------------------------------------------------------------------
+# 4. BACKEND LANGUAGES  (remove what you don't use)
+# -----------------------------------------------------------------------------
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.venv/
+venv/
+/env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+celerybeat-schedule
+*.sqlite3
+
+# --- Java / Kotlin (Maven, Gradle) ---
+target/
+*.class
+*.jar
+*.war
+*.ear
+!gradle/wrapper/gradle-wrapper.jar
+!.mvn/wrapper/maven-wrapper.jar
+.gradle/
+hs_err_pid*
+
+# --- Go ---
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.coverprofile
+go.work
+go.work.sum
+
+# --- PHP / Laravel ---
+/vendor/
+composer.phar
+.phpunit.result.cache
+/.phpunit.cache
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+Homestead.yaml
+Homestead.json
+/.vagrant
+
+
+# -----------------------------------------------------------------------------
+# 5. DOCKER
+# -----------------------------------------------------------------------------
+docker-compose.override.yml
+docker-compose.override.yaml
+compose.override.yml
+compose.override.yaml
+.docker/
+# Local volume data mounted from containers
+docker-data/
+.data/
+
+
+# -----------------------------------------------------------------------------
+# 6. TERRAFORM / TERRAGRUNT
+# -----------------------------------------------------------------------------
+# NOTE: DO commit .terraform.lock.hcl (HashiCorp recommendation)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+crash.log
+crash.*.log
+
+# Variable files usually contain secrets (keep examples)
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+!example.tfvars
+
+# Local override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Plan output (terraform plan -out=...)
+*.tfplan
+tfplan
+*tfplan*.json
+planout
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# Terragrunt / Infracost
+.terragrunt-cache/
+.infracost/
+
+
+# -----------------------------------------------------------------------------
+# 7. KUBERNETES / HELM / KUSTOMIZE
+# -----------------------------------------------------------------------------
+# Cluster credentials - never commit
+kubeconfig
+kubeconfig*.yaml
+kubeconfig*.yml
+*.kubeconfig
+.kube/
+
+# Plain Secret manifests (use SealedSecrets / SOPS / External Secrets instead)
+*secret*.local.yaml
+*secret*.local.yml
+secret.yaml
+secret.yml
+secrets.yaml
+secrets.yml
+!sealed-secret*.yaml
+!*.sops.yaml
+!*.enc.yaml
+
+# Helm: downloaded dependencies & packaged charts (commit Chart.lock)
+charts/*/charts/*.tgz
+charts/*/tmpcharts/
+*.helm.tgz
+values.local.yaml
+values-local.yaml
+values.secret.yaml
+values-secret*.yaml
+
+# Rendered manifests (helm template / kustomize build output)
+/rendered/
+/manifests-rendered/
+
+
+# -----------------------------------------------------------------------------
+# 8. CI/CD - JENKINS & GITHUB ACTIONS
+# -----------------------------------------------------------------------------
+# NOTE: DO commit Jenkinsfile and .github/workflows/*.yml
+
+# Jenkins (local instances / agents / test runs)
+jenkins_home/
+.jenkins/
+jenkins-data/
+workspace@tmp/
+*@tmp/
+
+# GitHub Actions local runner (nektos/act)
+.secrets
+.vars
+.actrc.local
+.act/
+
+# CI artifacts downloaded locally
+/artifacts/
+/reports/
+
+
+# -----------------------------------------------------------------------------
+# 9. AI CODING TOOLS
+# -----------------------------------------------------------------------------
+# COMMIT shared AI config so the whole team benefits:
+#   CLAUDE.md, AGENTS.md, GEMINI.md, .claude/settings.json, .claude/commands/,
+#   .claude/agents/, .claude/skills/, .cursor/rules/, .cursorignore,
+#   .github/copilot-instructions.md, .clinerules, .windsurfrules,
+#   .kiro/specs/, .aiderignore
+# IGNORE only personal settings, caches, chat history and scratch output below.
+
+# Claude Code
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/agent-memory-local/
+.claude/*.local.*
+
+# Cursor
+.cursor/*.local.*
+.cursor/chats/
+
+# Aider (default: adds .aider* itself)
+.aider*
+!.aiderignore
+
+# Gemini CLI / OpenAI Codex
+.gemini/*.local.*
+.gemini/tmp/
+.codex/
+
+# Cline / Roo Code / Continue / Windsurf / Codeium
+.cline/
+.roo/*.local.*
+.continue/sessions/
+.continue/dev_data/
+.continue/index/
+.windsurf/*.local.*
+.codeium/
+
+# Copilot / misc agents
+.copilot/
+.specstory/
+.serena/cache/
+.augment/
+.tabnine/
+.qodo/
+
+# MCP config may contain API keys - commit a template instead
+.mcp.local.json
+mcp.local.json
+
+# AI-generated scratch files & chat exports
+*.ai-chat.md
+*.prompt.local.md
+ai-output/
+.ai-scratch/
+.llm-cache/
+
+# Local LLM / vector DB artifacts
+*.gguf
+*.safetensors
+.chroma/
+chroma_db/
+.ollama/
+
+
+# -----------------------------------------------------------------------------
+# 10. IDEs & EDITORS
+# -----------------------------------------------------------------------------
+# VS Code (keep shared team config)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+*.vsix
+.vscode-test/
+
+# JetBrains (WebStorm, IntelliJ, PyCharm, GoLand, PhpStorm, ...)
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+http-client.private.env.json
+
+# Visual Studio
+.vs/
+
+# Sublime Text
+*.sublime-workspace
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+sftp-config.json
+sftp-config-alt*.json
+
+# Vim / Neovim
+[._]*.s[a-v][a-z]
+!*.svg
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+[._]*.un~
+
+# Emacs
+\#*\#
+.\#*
+*~
+auto-save-list/
+.projectile
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+
+# Zed / Fleet
+.zed/*.local.*
+.fleet/
+
+
+# -----------------------------------------------------------------------------
+# 11. OPERATING SYSTEMS
+# -----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+.TemporaryItems
+__MACOSX/
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.stackdump
+
+# Linux
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+nohup.out
+
+
+# -----------------------------------------------------------------------------
+# 12. LOGS, TEMP & MISC
+# -----------------------------------------------------------------------------
+logs/
+*.log
+pids/
+*.pid
+*.pid.lock
+*.seed
+/tmp/
+/temp/
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.swp
+
+# Database dumps & local DBs
+*.sql.gz
+*.dump
+dump.rdb
+*.sqlite
+*.db
+!migrations/**/*.sql
+
+# Uploaded user files in local dev
+/uploads/

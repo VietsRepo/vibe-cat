@@ -1,0 +1,381 @@
+@font-face {
+  font-family: "BT Steinhart";
+  src: url("assets/fonts/BTSteinhart-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BT Steinhart";
+  src: url("assets/fonts/BTSteinhart-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "BT Steinhart Mono";
+  src: url("assets/fonts/BTSteinhart-RegularMono.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("assets/fonts/HelveticaNeueRoman.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Helvetica Neue";
+  src: url("assets/fonts/HelveticaNeueMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg-top: #ffffff;
+  --bg-bottom: #0c0c0c;
+  --text-main: #ffffff;
+  --text-muted: #8e8e8e;
+  --text-mono: #727272;
+  --font-heading:
+    "BT Steinhart", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  --font-mono:
+    "BT Steinhart Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+  --font-body:
+    "Helvetica Neue", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-bottom);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: grab;
+}
+
+.page-wrapper:active {
+  cursor: grabbing;
+}
+
+/* Fixed HUD: Speedometer */
+.hud-speedometer {
+  position: fixed;
+  top: 50px;
+  left: 26px;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text-mono);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.speed-val {
+  min-width: 14px;
+  text-align: right;
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-mono);
+}
+
+.speed-unit {
+  color: var(--text-mono);
+}
+
+/* Upper White Section */
+.top-section {
+  position: relative;
+  width: 100%;
+  height: 40.3vh;
+  min-height: 222px;
+  background-color: var(--bg-top);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: visible;
+  z-index: 5;
+}
+
+/* Background Giant SERVICES Text */
+.bg-label-wrapper {
+  position: absolute;
+  left: 0;
+  bottom: 6px;
+  width: 100%;
+  height: 156px;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.services-bg-svg {
+  width: 100%;
+  height: 100%;
+  color: #ececec;
+  display: block;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Truck Showcase Container */
+.truck-stage {
+  position: absolute;
+  bottom: 8px; /* Wheels sit at y=214 to y=222 */
+  left: clamp(140px, 19.9vw, 204px);
+  width: clamp(340px, 41vw, 420px);
+  aspect-ratio: 2664 / 614;
+  z-index: 10;
+  pointer-events: none;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.truck-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35));
+}
+
+.truck-shadow {
+  position: absolute;
+  bottom: -1px;
+  left: 3%;
+  width: 94%;
+  height: 5px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* Bottom Dark Section */
+.bottom-section {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  min-height: 59.7vh;
+  background-color: var(--bg-bottom);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 42px 0 35px 0;
+  z-index: 4;
+}
+
+/* Services 4-Column Grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 36px;
+  width: 100%;
+  max-width: 1024px;
+  margin: 0;
+  padding-left: 26px;
+  padding-right: 48px;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-2px);
+}
+
+.service-icon-wrap {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 24px;
+}
+
+.service-icon {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.service-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.service-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  line-height: 1.48;
+  color: var(--text-muted);
+  max-width: 215px;
+  letter-spacing: -0.01em;
+}
+
+/* Bottom Navigation Bar */
+.bottom-bar {
+  position: absolute;
+  bottom: 35px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* Pill Button: OUR SERVICES */
+.btn-services {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 22px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #111111;
+  color: #cccccc;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-services:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  background: #1c1c1c;
+}
+
+/* Circular Drag Tracker / Dial Widget */
+.interactive-dial {
+  position: absolute;
+  left: clamp(650px, 73.1vw, 749px);
+  bottom: 40px;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  transition: transform 0.1s ease-out;
+}
+
+.dial-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Awwwards Site of the Day Ribbon Badge */
+.awwwards-ribbon {
+  position: fixed;
+  top: 219px; /* Sits right at the horizon split line */
+  right: 0;
+  width: 35px;
+  height: 114px;
+  z-index: 100;
+  display: block;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.25);
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease;
+}
+
+.awwwards-ribbon:hover {
+  transform: translateX(-3px);
+  filter: brightness(1.1);
+}
+
+.awwwards-ribbon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 20px;
+    padding-right: 26px;
+  }
+  .truck-stage {
+    left: 10%;
+    width: 60vw;
+  }
+  .interactive-dial {
+    display: none;
+  }
+}
+
+@media (max-width: 540px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .truck-stage {
+    left: 4%;
+    width: 80vw;
+  }
+  .hud-speedometer {
+    top: 20px;
+  }
+  .awwwards-ribbon {
+    width: 28px;
+    height: 90px;
+  }
+}
